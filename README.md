@@ -145,7 +145,7 @@ G-One_AI/
 ├── src/
 │   ├── app.py
 │   └── google_api_key.example.py
-└── Project Report and Video/
+└── Documentation/
 │   ├── G-One Project Report
 │   └── G-One Project Video
 └── logos/
