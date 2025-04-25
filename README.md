@@ -60,7 +60,7 @@
 
 | Landing Page                       | Upload Interface                    | Generate Analysis                   | Medical Q&A Query                   |
 |------------------------------------|-------------------------------------|-------------------------------------|-------------------------------------|
-| ![Landing Screen](docs/landing.png) | ![Upload Screen](docs/upload.png)   | ![Generate Screen](docs/generate.png) | ![Query Screen](docs/Query.png)      |
+| ![Landing Screen](logos/landing.png) | ![Upload Screen](logos/upload.png)   | ![Generate Screen](logos/generate.png) | ![Query Screen](logos/Query.png)      |
 
 
 ---
