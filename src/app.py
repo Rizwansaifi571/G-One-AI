@@ -132,8 +132,6 @@ with st.sidebar:
     ### ⚠️ Important
     - Consult actual doctors for emergencies
     - Results not 100% definitive
-    - English language only
-    - Max file size: 20MB
     """)
     
     st.markdown("---")
@@ -171,11 +169,21 @@ def display_file(file, file_type):
         st.info("📑 File Content Preview - Analysis typically takes 20-40 seconds")
 
 # ================= TTS Engine =================
-engine = pyttsx3.init()
-engine.setProperty('rate', 200)
+try:
+    import pyttsx3
+    engine = pyttsx3.init()
+    engine.setProperty('rate', 200)
+    tts_enabled = True
+except Exception:
+    st.warning("⚠️ Text-to-speech engine unavailable. Audio features disabled.")
+    engine = None
+    tts_enabled = False
 
+# read_aloud function
 def read_aloud(text):
     global engine
+    if not tts_enabled:
+        return
     if st.session_state.get("reading", False):
         engine.stop()
         st.session_state["reading"] = False
