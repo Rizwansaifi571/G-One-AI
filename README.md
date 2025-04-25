@@ -145,19 +145,21 @@ G-One_AI/
 ├── src/
 │   ├── app.py
 │   └── google_api_key.example.py
-└── docs/
+└── Project Report and Video/
+└── logos/
     ├── landing.png
     ├── upload.png
     ├── generate.png
+    ├── g-one.png
     └── query.png
 
 
 ```
 
 - **`src/app.py`** — Main Streamlit interface & logic  
-- **`google_api_key.py`** — (Git-ignored) Your private API key  
-- **`modules/`** — Helper functions for PDF extraction & TTS  
+- **`google_api_key.py`** — (Git-ignored) Your private API key   
 - **`docs/`** — Images & documentation assets  
+- **`Project Report and Video`** — Project Documentation and Overview Video  
 
 ---
 
