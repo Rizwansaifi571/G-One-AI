@@ -146,6 +146,8 @@ G-One_AI/
 │   ├── app.py
 │   └── google_api_key.example.py
 └── Project Report and Video/
+│   ├── G-One Project Report
+│   └── G-One Project Video
 └── logos/
     ├── landing.png
     ├── upload.png
