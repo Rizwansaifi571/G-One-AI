@@ -1,9 +1,27 @@
-```markdown
-# 🩺 G-One AI — Your Advanced Medical Analysis Assistant
+<p align="center">
+  <img src="docs/g-one.png" alt="G-One AI Logo" width="120" />
+</p>
 
-[![Python](https://img.shields.io/badge/python-3.8%2B-blue)](https://www.python.org/)  
-[![Streamlit](https://img.shields.io/badge/streamlit-1.30.0-orange)](https://streamlit.io/)  
-[![License: MIT](https://img.shields.io/badge/License-MIT-green)](./LICENSE)  
+<h1 align="center">🩺 G-One AI</h1>
+<h3 align="center">Your Next-Generation Medical Analysis Assistant</h3>
+
+<p align="center">
+  <a href="https://www.python.org/">
+    <img src="https://img.shields.io/badge/python-3.10%2B-blue?logo=python&logoColor=white" alt="Python">
+  </a>
+  <a href="https://streamlit.io/">
+    <img src="https://img.shields.io/badge/Streamlit-1.30.0-orange?logo=streamlit&logoColor=white" alt="Streamlit">
+  </a>
+  <a href="./LICENSE">
+    <img src="https://img.shields.io/badge/License-MIT-green" alt="License">
+  </a>
+</p>
+
+<p align="center">
+  <em>Instant AI-powered interpretations of medical images &amp; reports, with clear recommendations, TTS audio, and interactive Q&amp;A.</em>
+</p>
+
+---
 
 ---
 
@@ -39,11 +57,11 @@
 
 ## 📸 Demo & Screenshots
 
-> _Illustrative screenshots below (replace with real ones in your `/docs` folder)._  
 
-| Upload Interface              | Generated Report               |
-| ----------------------------- | ------------------------------ |
-| ![Upload Screen](docs/upload.png) | ![Report Screen](docs/report.png) |
+| Landing Page                       | Upload Interface                    | Generate Analysis                   | Medical Q&A Query                   |
+|------------------------------------|-------------------------------------|-------------------------------------|-------------------------------------|
+| ![Landing Screen](logos/landing.png) | ![Upload Screen](logos/upload.png)   | ![Generate Screen](logos/generate.png) | ![Query Screen](logos/Query.png)      |
+
 
 ---
 
@@ -125,15 +143,25 @@ G-One_AI/
 ├── README.md
 ├── requirements.txt
 ├── src/
-    ├── app.py
-    ├── google_api_key.example.py
+│   ├── app.py
+│   └── google_api_key.example.py
+└── Documentation/
+│   ├── G-One Project Report
+│   └── G-One Project Video
+└── logos/
+    ├── landing.png
+    ├── upload.png
+    ├── generate.png
+    ├── g-one.png
+    └── query.png
+
 
 ```
 
 - **`src/app.py`** — Main Streamlit interface & logic  
-- **`google_api_key.py`** — (Git-ignored) Your private API key  
-- **`modules/`** — Helper functions for PDF extraction & TTS  
+- **`google_api_key.py`** — (Git-ignored) Your private API key   
 - **`docs/`** — Images & documentation assets  
+- **`Project Report and Video`** — Project Documentation and Overview Video  
 
 ---
 
