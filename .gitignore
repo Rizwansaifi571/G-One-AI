@@ -173,5 +173,3 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
-
-src/google_api_key.py
