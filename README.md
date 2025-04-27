@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/g-one.png" alt="G-One AI Logo" width="120" />
+  <img src="logos/g-one.png" alt="G-One AI Logo" width="120" />
 </p>
 
 <h1 align="center">🩺 G-One AI</h1>
