@@ -256,12 +256,25 @@ if st.session_state.get('generated', False):
     with chat_container:
         for chat in st.session_state.chat_history:
             st.markdown(f"""
-            <div style='background-color: #9273bf; border-radius: 10px; padding: 10px; margin: 10px 0;'>
+            <div style="
+                background-color: #D7EAF7;
+                color: #333333;
+                border-radius: 10px;
+                padding: 10px;
+                margin: 10px 0;
+            ">
                 <strong>You:</strong> {chat['user']}
             </div>
-            <div style='background-color: #9273bf; border-radius: 10px; padding: 10px; margin: 10px 0;'>
+            <div style="
+                background-color: #4A90E2;
+                color: #FFFFFF;
+                border-radius: 10px;
+                padding: 10px;
+                margin: 10px 0;
+            ">
                 <strong>AI:</strong> {chat['assistant']}
             """, unsafe_allow_html=True)
+
     
     # Chat input
     input_col, btn_col = st.columns([5, 1])
@@ -271,37 +284,37 @@ if st.session_state.get('generated', False):
     with btn_col:
         if st.button("Send", use_container_width=True):
             if user_query:
-                # Save the query to session_state before using it
                 st.session_state.user_query = user_query
-
                 with st.spinner("Analyzing query..."):
                     try:
-                        query_prompt = f"""
-                        You are an AI medical assistant helping a user understand their uploaded medical file (which could be a report, text, image, or PDF).
+                        # Build a flat list of prompt parts
+                        query_parts = [
+                            system_prompt,
+                            # 1. what was uploaded
+                            "📝 Uploaded File Summary:\n"
+                            + (st.session_state.last_uploaded 
+                            or "Image or non-text file uploaded."),
+                            # 2. what the AI already said
+                            "📋 Previous G-One AI Analysis:\n" + st.session_state.analysis,
+                            # 3. the new user question
+                            f"❓ User's Question:\n{user_query}",
+                            # 4. fresh instructions to be concise, practical, and out‑of‑the‑box
+                            "✅ Provide a **concise**, **practical** answer based on the above.",
+                            "💡 If relevant, recommend tests, products, or lifestyle tips, "
+                            "even if they weren’t directly mentioned.",
+                            "🎯 Avoid repetition of earlier disclaimers. "
+                            "Use layman‑friendly language and include any extra helpful tips you can."
+                        ]
 
-                        Uploaded File Summary:
-                        {st.session_state.last_uploaded}
+                        # Call Gemini
+                        response = model.generate_content(query_parts)
 
-                        AI-Generated Medical Analysis:
-                        {st.session_state.analysis}
-
-                        User's Question:
-                        {st.session_state.user_query}
-
-                        Instructions:
-                        - Provide a clear, practical answer using simple, patient-friendly language.
-                        - If the uploaded file is an image (e.g., showing acne or skin issues), use the analysis and visual cues to guide your response.
-                        - You may offer general product or lifestyle suggestions (e.g., recommending a mild soap for acne), but mention that effectiveness can vary by individual.
-                        - If a direct answer isn't in the uploaded content, respond with useful, relevant medical information to help the user.
-                        - Be supportive, informative, and never alarming. Keep it brief unless the user asks for more detail.
-                        """
-
-                        response = model.generate_content([query_prompt, system_prompt])
-                        
+                        # Append and rerun
                         st.session_state.chat_history.append({
                             "user": user_query,
                             "assistant": response.text
                         })
                         st.rerun()
+
                     except Exception as e:
                         st.error(f"Query error: {str(e)}")
