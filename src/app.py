@@ -136,7 +136,7 @@ with st.sidebar:
     
     st.markdown("---")
     st.caption("🔍 Powered by Google Gemini AI")
-    st.caption("🛠️ Developed by [Your Name]")
+    st.caption("🛠️ Developed by Mohd Rizwan")
 
 # ================= Main Interface =================
 st.title("G-One Medical AI Assistant 🧠")
