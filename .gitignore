@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
+google_api_key1.py
 
 # C extensions
 *.so
@@ -136,6 +137,7 @@ ENV/
 env.bak/
 venv.bak/
 Genv/
+src/google_api_key.py
 
 # Spyder project settings
 .spyderproject
