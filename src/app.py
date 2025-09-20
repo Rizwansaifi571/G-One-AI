@@ -1,14 +1,11 @@
-import sys
 import streamlit as st
-from pathlib import Path
 import google.generativeai as genai
-from google_api_key import google_api_key
 from PyPDF2 import PdfReader
 import pyttsx3
 import threading
 
-# Google Gemini API configuration
-genai.configure(api_key=google_api_key)
+if "api_key" not in st.session_state:
+    st.session_state.api_key = ""
 
 generation_config = {
     "temperature": 0.7,
@@ -91,11 +88,17 @@ Your response should follow the format below for **clarity and engagement:**
 Your expert insights **play a critical role in guiding clinical decisions and enhancing patient care.** Please proceed with the analysis while adhering to the structured approach outlined above. 🚀  
 """
 
-model = genai.GenerativeModel(
-    model_name="gemini-1.5-pro-latest",
-    generation_config=generation_config,
-    safety_settings=safety_settings
-)
+# Configure model only if API key is set
+if "api_key" in st.session_state and st.session_state.api_key:
+    genai.configure(api_key=st.session_state.api_key)
+    model = genai.GenerativeModel(
+        model_name="gemini-1.5-pro-latest",
+        generation_config=generation_config,
+        safety_settings=safety_settings
+    )
+else:
+    model = None
+
 
 # ================= UI Configuration =================
 st.set_page_config(
@@ -108,14 +111,33 @@ st.set_page_config(
 # ================= Sidebar Content =================
 with st.sidebar:
     st.title("🩺 G-One Medical AI")
+
+
+    # API Key Input Section
+    st.subheader("🔑 API Key Setup")
+    api_key_input = st.text_input(
+        "Enter your Google Gemini API Key:",
+        type="password",
+        placeholder="Paste your key here...",
+        help="You can get your API key from https://aistudio.google.com/app/apikey"
+    )
+    
+    # Instructions Section
     st.markdown("""
     ### 📚 How to Use
-    1. **Upload** medical file (Image/PDF/Text)
-    2. Click **Generate Analysis**
-    3. Review comprehensive report
-    4. Ask follow-up questions
-    5. Use audio & download features
+    1. Enter your **Google Gemini API Key** below.
+    2. **Upload** medical file (Image/PDF/Text).
+    3. Click **Generate Analysis** to get AI-powered results.
+    4. Ask follow-up questions in the chat.
     """)
+    
+
+    if api_key_input:
+        st.session_state.api_key = api_key_input
+        st.success("✅ API Key set successfully!")
+    else:
+        st.warning("⚠️ Please enter your API Key to run the analysis.")
+
     
     st.markdown("---")
     st.markdown("""
@@ -136,7 +158,7 @@ with st.sidebar:
     
     st.markdown("---")
     st.caption("🔍 Powered by Google Gemini AI")
-    st.caption("🛠️ Developed by Mohd Rizwan")
+    st.caption("🛠️ Developed by Mohd Rizwan 💞")
 
 # ================= Main Interface =================
 st.title("G-One Medical AI Assistant 🧠")
@@ -206,18 +228,21 @@ if file_uploaded:
     content = display_file(file_uploaded, file_type)
 
     if st.button("🔍 Generate Comprehensive Analysis", type="primary", use_container_width=True):
-        with st.spinner("🧠 Analyzing with G-One AI..."):
-            prompt_parts = [{"mime_type": file_type, "data": file_uploaded.getvalue()}, system_prompt]
-            try:
-                response = model.generate_content(prompt_parts)
-                if response and hasattr(response, 'text'):
-                    st.session_state.analysis = response.text
-                    st.session_state.generated = True
-                    st.session_state.last_uploaded = content
-                else:
-                    st.error("Analysis failed. Please try again.")
-            except Exception as e:
-                st.error(f"Error: {str(e)}")
+        if not model:
+            st.error("❌ Please enter your API Key in the sidebar first.")
+        else:
+            with st.spinner("🧠 Analyzing with G-One AI..."):
+                prompt_parts = [{"mime_type": file_type, "data": file_uploaded.getvalue()}, system_prompt]
+                try:
+                    response = model.generate_content(prompt_parts)
+                    if response and hasattr(response, 'text'):
+                        st.session_state.analysis = response.text
+                        st.session_state.generated = True
+                        st.session_state.last_uploaded = content
+                    else:
+                        st.error("Analysis failed. Please try again.")
+                except Exception as e:
+                    st.error(f"Error: {str(e)}")
 
 # Display results
 if st.session_state.get('generated', False):
@@ -317,4 +342,8 @@ if st.session_state.get('generated', False):
                         st.rerun()
 
                     except Exception as e:
-                        st.error(f"Query error: {str(e)}")
+                        if "API key" in str(e) or "401" in str(e):
+                            st.error("❌ Invalid API Key. Please check and try again.")
+                        else:
+                            st.error(f"Error: {str(e)}")
+
