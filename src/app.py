@@ -92,7 +92,7 @@ Your expert insights **play a critical role in guiding clinical decisions and en
 if "api_key" in st.session_state and st.session_state.api_key:
     genai.configure(api_key=st.session_state.api_key)
     model = genai.GenerativeModel(
-        model_name="gemini-1.5-pro-latest",
+        model_name="gemini-2.5-flash",
         generation_config=generation_config,
         safety_settings=safety_settings
     )
